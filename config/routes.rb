@@ -1,3 +1,4 @@
+#ルーティングの設定
 Rails.application.routes.draw do
   get "articles/index"
   get "articles/show"

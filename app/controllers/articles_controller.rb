@@ -1,3 +1,4 @@
+#コントローラーのアクション設定
 class ArticlesController < ApplicationController
   def index
   end
