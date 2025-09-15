@@ -1,10 +1,35 @@
-<h1>Articles</h1>
-<%= link_to"New Article", neew_article_path, "btn btn-primary" %>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>All Articles</h1>
+    <%= link_to "New Article", new_article_path, class: "btn btn-primary" %>
+  </div>
 
-<% @article.each do |article| %>
-    <div>
-        <h3><%= link_to article.title, article %></h3>
-<p><%= truncate(article.body, length: 100) %</p>
+  <% if @articles.any? %>
+    <% @articles.each do |article| %>
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">
+            <%= link_to article.title, article, class: "text-decoration-none" %>
+          </h5>
+          <p class="card-text">
+            <%= truncate(article.body, length: 100) %>
+          </p>
+          <div class="d-flex gap-2">
+            <%= link_to "Show", article, class: "btn btn-primary btn-sm" %>
+            <%= link_to "Edit", edit_article_path(article), class: "btn btn-outline-secondary btn-sm" %>
+            
+            <%= button_to "Delete", article, 
+                method: :delete,
+                data: { confirm: "Are you sure?" },
+                class: "btn btn-outline-danger btn-sm" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="text-center py-5">
+      <p class="lead">No articles found.</p>
+      <%= link_to "Create your first article", new_article_path, class: "btn btn-primary" %>
     </div>
-
-<% end %>
+  <% end %>
+</div>
