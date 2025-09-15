@@ -1,2 +1,32 @@
-<h1>Articles#edit</h1>
-<p>Find me in app/views/articles/edit.html.erb</p>
+<div class="container mt-4">
+  <h1>Edit Article</h1>
+
+  <%= form_with model: @article, local: true do |form| %>
+    <% if @article.errors.any? %>
+      <div class="alert alert-danger">
+        <h4><%= pluralize(@article.errors.count, "error") %> prohibited this article from being saved:</h4>
+        <ul>
+          <% @article.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-3">
+      <%= form.label :title, class: "form-label" %>
+      <%= form.text_field :title, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :body, class: "form-label" %>
+      <%= form.text_area :body, rows: 10, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.submit "Update Article", class: "btn btn-primary" %>
+      <%= link_to "Show", @article, class: "btn btn-outline-primary ms-2" %>
+      <%= link_to "Back", articles_path, class: "btn btn-secondary ms-2" %>
+    </div>
+  <% end %>
+</div>
