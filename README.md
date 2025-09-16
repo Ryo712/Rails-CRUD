@@ -24,5 +24,8 @@ Things you may want to cover:
 
 * Deployment instructions
 
+* サーバー起動
+rails server
+
 * ...
 >>>>>>> create-files
