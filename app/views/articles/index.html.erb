@@ -1,32 +1,33 @@
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>All Articles</h1>
-    <%= link_to "New Article", new_article_path, class: "btn btn-primary" %>
+    <%= link_to "New Article", new_article_path, class: "btn btn-primary" %> <!--Railsのルートヘルパー → /articles/newのURLを生成 -->
   </div>
 
-  <% if @articles.any? %>
-    <% @articles.each do |article| %>
+  <% if @articles.any? %> <!--コントローラーから渡されたインスタンス変数（Article.allの結果）any?で配列のデータ存在チェックtrue/false-->
+    <% @articles.each do |article| %> <!-- %で囲み ERBの実行タグ（出力なし、処理のみ）@articles配列の各要素をarticle変数に代入-->
       <div class="card mb-3">
         <div class="card-body">
           <h5 class="card-title">
-            <%= link_to article.title, article, class: "text-decoration-none" %>
-          </h5>
+            <%= link_to article.title, article, class: "text-decoration-none" %> <!--データベースから取得した記事のタイトル。%=はERBの出力タグ（HTMLに結果を出力）-->
+          </h5> <!--article:Railsが自動でshow actionのパスを生成（/articles/:id）-->
           <p class="card-text">
-            <%= truncate(article.body, length: 100) %>
+            <%= truncate(article.body, length: 100) %> <!--100文字を超える場合、自動で "..." を追加-->
           </p>
           <div class="d-flex gap-2">
-            <%= link_to "Show", article, class: "btn btn-primary btn-sm" %>
-            <%= link_to "Edit", edit_article_path(article), class: "btn btn-outline-secondary btn-sm" %>
+            <%= link_to "Show", article, class: "btn btn-primary btn-sm" %> <!--article → /articles/1 (show action) GETリクエスト-->
+            <%= link_to "Edit", edit_article_path(article), class: "btn btn-outline-secondary btn-sm" %> <!--edit_article_path(article) → /articles/1/edit (edit action) GETリクエスト-->
             
-            <%= button_to "Delete", article, 
-                method: :delete,
-                data: { confirm: "Are you sure?" },
-                class: "btn btn-outline-danger btn-sm" %>
+            <%= button_to "Delete", article, #button_to: フォーム送信のためのボタンを生成
+                method: :delete, #HTTPのDELETEメソッドを指定
+                data: { confirm: "Are you sure?" }, #JSの確認ダイアログ
+                class: "btn btn-outline-danger btn-sm" %> <!--ボタンのスタイル-->
+                <!--Rails内部処理: TurboがDELETE /articles/1リクエストを送信-->
           </div>
         </div>
       </div>
     <% end %>
-  <% else %>
+  <% else %> <!--@articles.any?がfalseの場合に実行-->
     <div class="text-center py-5">
       <p class="lead">No articles found.</p>
       <%= link_to "Create your first article", new_article_path, class: "btn btn-primary" %>
