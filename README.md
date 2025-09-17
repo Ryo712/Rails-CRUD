@@ -25,7 +25,10 @@ Things you may want to cover:
 * Deployment instructions
 
 * サーバー起動
+```
+cd blog
 rails server
+```
 
 * ...
 >>>>>>> create-files
