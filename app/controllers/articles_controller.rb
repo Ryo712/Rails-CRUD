@@ -6,6 +6,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
+    @article = Article.find(params[:id]) #データベースから記事を取得。before_actionがあるためこの行はなくても機能する
   end
 
   def new
@@ -23,6 +24,7 @@ class ArticlesController < ApplicationController
   end
 
   def edit
+    @article = Article.find(params[:id]) #@articleインスタンス変数に格納が行われている
   end
 
   def update
