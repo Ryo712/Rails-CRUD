@@ -1,11 +1,9 @@
-<h1>Articles#new</h1>
-<p>Find me in app/views/articles/new.html.erb</p>
 <div class="container mt-4">
   <h1>New Article</h1>
 
-  <%= form_with model: @article, local: true do |form| %>
+  <%= form_with model: @article, local: true do |form| %> <!--フォーム生成 POST/articlesへ送信-->
     <% if @article.errors.any? %>
-      <div class="alert alert-danger">
+      <div class="alert alert-danger"> <!-- エラーがある場合のみ表示される条件分岐 -->
         <h4><%= pluralize(@article.errors.count, "error") %> prohibited this article from being saved:</h4>
         <ul>
           <% @article.errors.full_messages.each do |message| %>
@@ -15,18 +13,18 @@
       </div>
     <% end %>
 
-    <div class="mb-3">
+    <div class="mb-3"> <!--タイトル入力フィールド-->
       <%= form.label :title, class: "form-label" %>
-      <%= form.text_field :title, class: "form-control" %>
+      <%= form.text_field :title, class: "form-control" %> <!--form.text_field:入力フィールド生成-->
     </div>
 
     <div class="mb-3">
       <%= form.label :body, class: "form-label" %>
-      <%= form.text_area :body, rows: 3, class: "form-control" %>
+      <%= form.text_area :body, rows: 3, class: "form-control" %> <!--form.text_area:テキストエリア生成-->
     </div>
 
     <div class="mb-3">
-      <%= form.submit "Create Article", class: "btn btn-primary" %>
+      <%= form.submit "Create Article", class: "btn btn-primary" %> <!--form.submit:送信ボタン生成-->
       <%= link_to "Cancel", articles_path, class: "btn btn-secondary ms-2" %>
     </div>
   <% end %>

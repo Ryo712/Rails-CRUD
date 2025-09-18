@@ -10,17 +10,19 @@ class ArticlesController < ApplicationController
   end
 
   def new
-    @article = Article.new
+    @article = Article.new #空の新しいArticleオブジェクトを作成
   end
 
   def create
-    @article = Article.new(article_params)
+    @article = Article.new(article_params) #フォームデータで新しいオブジェクト作成
     
-    if @article.save
+    if @article.save #データベースに保存を試行
       redirect_to @article, notice: 'Article was successfully created.'
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_entity #失敗時はフォーム再表示
     end
+    #newアクション = フォーム表示
+    #createアクション = データ保存 この2つの処理で新規作成機能の実装！
   end
 
   def edit
