@@ -2,7 +2,7 @@
   <h1>Edit Article</h1>
 
   <%= form_with model: @article, local: true do |form| %>
-    <% if @article.errors.any? %>
+    <% if @article.errors.any? %> <!--エラー表示部分-->
       <div class="alert alert-danger">
         <h4><%= pluralize(@article.errors.count, "error") %> prohibited this article from being saved:</h4>
         <ul>
@@ -15,7 +15,7 @@
 
     <div class="mb-3">
       <%= form.label :title, class: "form-label" %>
-      <%= form.text_field :title, class: "form-control" %>
+      <%= form.text_field :title, class: "form-control" %> <!--タイトルフィールド。既存データ表示-->
     </div>
 
     <div class="mb-3">
