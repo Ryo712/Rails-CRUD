@@ -15,15 +15,17 @@
             <%= truncate(article.body, length: 100) %> <!--100文字を超える場合、自動で "..." を追加-->
           </p>
           <div class="d-flex gap-2">
-            <%= link_to "Show", article, class: "btn btn-primary btn-sm" %> <!--article → /articles/1 (show action) GETリクエスト-->
-            <%= link_to "Edit", edit_article_path(article), class: "btn btn-outline-secondary btn-sm" %> <!--edit_article_path(article) → /articles/1/edit (edit action) GETリクエスト-->
-            
-            <%= button_to "Delete", article, #button_to: フォーム送信のためのボタンを生成
-                method: :delete, #HTTPのDELETEメソッドを指定
-                data: { confirm: "Are you sure?" }, #JSの確認ダイアログ
-                class: "btn btn-outline-danger btn-sm" %> <!--ボタンのスタイル-->
-                <!--Rails内部処理: TurboがDELETE /articles/1リクエストを送信-->
-          </div>
+  <!-- GETリクエスト（表示系）: link_to -->
+  <%= link_to "Show", article, class: "btn btn-primary btn-sm" %>
+  <%= link_to "Edit", edit_article_path(article), class: "btn btn-outline-secondary btn-sm" %>
+  
+  <!-- DELETE/PUT/PATCHリクエスト（操作系）: button_to -->
+  <%= button_to "Delete", article, 
+      method: :delete,
+      data: { confirm: "Are you sure?" },
+      class: "btn btn-outline-danger btn-sm",
+      form: { style: "display: inline-block;" } %>  
+</div>
         </div>
       </div>
     <% end %>
