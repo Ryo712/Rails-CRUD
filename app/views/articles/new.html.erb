@@ -24,6 +24,11 @@
     </div>
 
     <div class="mb-3">
+      <%= form.label :image, '画像', class: "form-label" %>
+      <%= form.file_field :image, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
       <%= form.submit "Create Article", class: "btn btn-primary" %> <!--form.submit:送信ボタン生成-->
       <%= link_to "Cancel", articles_path, class: "btn btn-secondary ms-2" %>
     </div>
