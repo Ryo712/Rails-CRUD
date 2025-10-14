@@ -25,6 +25,8 @@ class ArticlesController < ApplicationController
     #createアクション = データ保存 この2つの処理で新規作成機能の実装！
   end
 
+
+
   def edit
     @article = Article.find(params[:id]) #@articleインスタンス変数に格納が行われている
   end
@@ -49,6 +51,6 @@ class ArticlesController < ApplicationController
   end
 
   def article_params
-    params.require(:article).permit(:title, :body)
+    params.require(:article).permit(:title, :body, :image)
   end
 end
