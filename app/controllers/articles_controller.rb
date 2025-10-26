@@ -32,6 +32,12 @@ class ArticlesController < ApplicationController
   end
 
   def update
+    # 画像削除のチェックボックスがチェックされている場合の処理
+    # params[:article][:remove_image]が'1'（チェックされた状態）の場合に実行
+    if params[:article] && params[:article][:remove_image] == '1'
+      @article.image.purge  # 既存の画像をActive Storageから完全に削除
+    end
+    
     if @article.update(article_params)
       redirect_to @article, notice: 'Article was successfully updated.'
     else
@@ -51,6 +57,7 @@ class ArticlesController < ApplicationController
   end
 
   def article_params
-    params.require(:article).permit(:title, :body, :image)
+    # :remove_image を追加（画像削除チェックボックスの値を受け取るため）
+    params.require(:article).permit(:title, :body, :image, :remove_image)
   end
 end
