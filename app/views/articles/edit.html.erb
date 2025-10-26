@@ -15,13 +15,64 @@
 
     <div class="mb-3">
       <%= form.label :title, class: "form-label" %>
-      <%= form.text_field :title, class: "form-control" %> <!--タイトルフィールド。既存データ表示-->
+      <%= form.text_field :title, class: "form-control" %>
     </div>
 
     <div class="mb-3">
       <%= form.label :body, class: "form-label" %>
       <%= form.text_area :body, rows: 10, class: "form-control" %>
     </div>
+
+    <!-- ========== 画像変更機能 ========== -->
+    <div class="mb-3">
+      <%= form.label :image, "Image", class: "form-label" %>
+      
+      <!-- 現在の画像がある場合は表示 -->
+      <% if @article.image.attached? %>
+        <div id="current-image-area" class="mb-3 p-3 border rounded bg-light">
+          <p class="mb-2"><strong>Current Image:</strong></p>
+          
+          <div class="d-flex align-items-start gap-3">
+            <!-- 画像 -->
+            <div>
+              <%= image_tag @article.image, style: 'max-width: 400px; height: auto;', class: 'img-thumbnail' %>
+            </div>
+            
+            <!-- ボタン群 -->
+            <div class="d-flex flex-column gap-2">
+              <button type="button" class="btn btn-primary btn-sm" id="change-image-btn">
+                Change Image
+              </button>
+              <button type="button" class="btn btn-danger btn-sm" id="delete-image-btn">
+                Delete Image
+              </button>
+            </div>
+          </div>
+          
+          <!-- 隠しフィールド：削除フラグ -->
+          <%= form.hidden_field :remove_image, value: '0', id: 'remove-image-flag' %>
+        </div>
+        
+        <!-- ファイル選択フィールド（最初は非表示） -->
+        <div id="file-upload-area" style="display: none;">
+          <%= form.file_field :image, class: "form-control", accept: 'image/png,image/jpeg,image/jpg,image/gif', id: 'image-file-field' %>
+          <small class="form-text text-muted">
+            Select a new image. Accepted formats: PNG, JPG, JPEG, GIF
+          </small>
+        </div>
+        
+      <% else %>
+        <!-- 画像がない場合 -->
+        <p class="text-muted mb-2">No image uploaded yet</p>
+        <div id="file-upload-area">
+          <%= form.file_field :image, class: "form-control", accept: 'image/png,image/jpeg,image/jpg,image/gif', id: 'image-file-field' %>
+          <small class="form-text text-muted">
+            Select a new image. Accepted formats: PNG, JPG, JPEG, GIF
+          </small>
+        </div>
+      <% end %>
+    </div>
+    <!-- ========== 画像変更機能ここまで ========== -->
 
     <div class="mb-3">
       <%= form.submit "Update Article", class: "btn btn-primary" %>
@@ -30,3 +81,65 @@
     </div>
   <% end %>
 </div>
+
+<!-- JavaScript for image change and deletion -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const changeImageBtn = document.getElementById('change-image-btn');
+    const deleteImageBtn = document.getElementById('delete-image-btn');
+    const currentImageArea = document.getElementById('current-image-area');
+    const fileUploadArea = document.getElementById('file-upload-area');
+    const imageFileField = document.getElementById('image-file-field');
+    const removeImageFlag = document.getElementById('remove-image-flag');
+    
+    // Change Image ボタンの処理
+    if (changeImageBtn) {
+      changeImageBtn.addEventListener('click', function() {
+        console.log('Change Image button clicked'); // デバッグ用
+        // ファイル選択ダイアログを開く
+        imageFileField.click();
+      });
+    }
+    
+    // Delete Image ボタンの処理
+    if (deleteImageBtn) {
+      deleteImageBtn.addEventListener('click', function() {
+        console.log('Delete Image button clicked'); // デバッグ用
+        // 確認ダイアログ
+        if (confirm('本当にこの画像を削除しますか？')) {
+          console.log('Delete confirmed'); // デバッグ用
+          
+          // 現在の画像エリアを非表示
+          currentImageArea.style.display = 'none';
+          
+          // ファイル選択エリアを表示
+          fileUploadArea.style.display = 'block';
+          
+          // 削除フラグを'1'に設定
+          if (removeImageFlag) {
+            removeImageFlag.value = '1';
+            console.log('Remove flag set to:', removeImageFlag.value); // デバッグ用
+          }
+          
+          console.log('File upload area display:', fileUploadArea.style.display); // デバッグ用
+        }
+      });
+    }
+    
+    // ファイルが選択されたときの処理
+    if (imageFileField) {
+      imageFileField.addEventListener('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+          const fileName = e.target.files[0].name;
+          console.log('Selected file:', fileName); // デバッグ用
+          
+          // 削除フラグをリセット（新しい画像が選ばれた場合）
+          if (removeImageFlag) {
+            removeImageFlag.value = '0';
+            console.log('Remove flag reset to:', removeImageFlag.value); // デバッグ用
+          }
+        }
+      });
+    }
+  });
+</script>
